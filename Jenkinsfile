@@ -39,9 +39,9 @@ pipeline {
                     echo "Building Docker image"
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh """
-                        docker build --build-arg TMDB_V3_API_KEY=e5d8d5e6f6330a98515d0093e3d4b26f -t Netflix-1.0 .
+                        docker build --build-arg TMDB_V3_API_KEY=e5d8d5e6f6330a98515d0093e3d4b26f -t netflix-1.0 .
                         echo \$PASS | docker login -u \$USER --password-stdin
-                        docker push hassantariq14351/demo-app:Netflix-1.0
+                        docker push hassantariq14351/demo-app:netflix-1.0
                         """
                     }
                 }
