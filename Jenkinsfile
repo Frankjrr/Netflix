@@ -1,13 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage("init") {
-            steps {
-                script {
-                   echo "This is a init stage"
-                }
-            }
-        }
         stage("build jar") {
             steps {
                 script {
