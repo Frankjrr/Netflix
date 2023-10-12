@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools{
         jdk 'jdk17'
-        // nodejs 'node16'
+        nodejs 'node16'
     }
     environment {
         SCANNER_HOME=tool 'sonar-scanner'
@@ -19,6 +19,18 @@ pipeline {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
                     -Dsonar.projectKey=Netflix '''
                 }
+            }
+        }
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token' 
+                }
+            } 
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
             }
         }
         // stage('Build Image') {
