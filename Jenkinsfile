@@ -14,11 +14,11 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Install Dependencies') {
-            steps {
-                //sh "npm install"
-            }
-        }
+        // stage('Install Dependencies') {
+        //     steps {
+        //         //sh "npm install"
+        //     }
+        // }
         stage("build image") {
                 steps {
                     script {
