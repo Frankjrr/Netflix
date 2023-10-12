@@ -9,14 +9,13 @@ pipeline {
                 cleanWs()
             }
         }
-        stage('SonarQube Analysis') {
+        stage("Sonarqube Analysis") {
             steps {
-                withSonarQubeEnv(credentialsId: 'sonarqube-token') {
-                    sh """
-                    ${tool name: 'SonarQube-Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner \
-                    -Dsonar.projectName=Netflix -Dsonar.projectKey=Netflix
-                    """
-                }
+                script {
+            withSonarQubeEnv(installationName: 'SonarQubeScanner', credentialsId: 'sonarqube-token') {
+                sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix -Dsonar.projectKey=Netflix'''
+            }
+        }
             }
         }
         // stage('Build Image') {
