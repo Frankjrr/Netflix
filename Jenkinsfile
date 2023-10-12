@@ -52,6 +52,11 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to container'){
+            steps{
+                sh 'docker run -d --name netflix -p 8081:80 shassantariq14351/demo-app:netflix-1.0'
+            }
+        }
         stage('Deploy') {
             steps {
                 script {
