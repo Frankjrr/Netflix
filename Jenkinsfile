@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SCANNER_HOME = tool name: 'SonarQube-Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+        SCANNER_HOME=tool 'sonar-scanner'
     }
     stages {
         stage('Clean Workspace') {
@@ -9,13 +9,12 @@ pipeline {
                 cleanWs()
             }
         }
-        stage("Sonarqube Analysis") {
-            steps {
-                script {
-            withSonarQubeEnv(installationName: 'SonarQubeScanner', credentialsId: 'sonarqube-token') {
-                sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix -Dsonar.projectKey=Netflix'''
-            }
-        }
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+                    -Dsonar.projectKey=Netflix '''
+                }
             }
         }
         // stage('Build Image') {
