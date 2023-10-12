@@ -1,11 +1,11 @@
 pipeline {
     agent any
     tools{
-        jdk 'jdk17'
-        nodejs 'node16'
+        jdk 'jdk17' // jdk-17.0.8.1+1
+        nodejs 'node16' // Nodejs 16.2.0
     }
     environment {
-        SCANNER_HOME=tool 'sonar-scanner'
+        SCANNER_HOME=tool 'sonar-scanner'  // sonnar sccaner plugin // version SonarQube Scanner 5.0.1.3006 
     }
     stages {
         stage('Clean Workspace') {
@@ -20,7 +20,7 @@ pipeline {
         }
         stage("Sonarqube Analysis "){
             steps{
-                withSonarQubeEnv('sonar-server') {
+                withSonarQubeEnv('sonar-server') { // global configuration name
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
                     -Dsonar.projectKey=Netflix '''
                 }
@@ -29,15 +29,15 @@ pipeline {
         stage("quality gate"){
            steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token' 
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-token' // sonarqube secret token
                 }
             } 
         }
-        stage('Install Dependencies') {
-            steps {
-                sh "npm install"
-            }
-        }
+        // stage('Install Dependencies') {
+        //     steps {
+        //         sh "npm install"
+        //     }
+        // }
         stage('Build Image') {
             steps {
                 script {
