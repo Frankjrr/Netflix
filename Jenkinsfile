@@ -6,14 +6,14 @@ pipeline {
                 cleanWs()
             }
         }
-        // stage("Sonarqube Analysis "){
-        //     steps{
-        //         withSonarQubeEnv(credentialsId: 'sonar-token') {
-        //             sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-        //             -Dsonar.projectKey=Netflix '''
-        //         }
-        //     }
-        // }
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv(credentialsId: 'sonarqube-token') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+                    -Dsonar.projectKey=Netflix '''
+                }
+            }
+        }
         // stage('Install Dependencies') {
         //     steps {
         //         //sh "npm install"
