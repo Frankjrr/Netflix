@@ -1,45 +1,45 @@
 pipeline {
     agent any
+    environment {
+        SCANNER_HOME = tool name: 'SonarQube-Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+    }
     stages {
-        stage('clean workspace'){
-            steps{
+        stage('Clean Workspace') {
+            steps {
                 cleanWs()
             }
         }
-        stage("Sonarqube Analysis "){
-            steps{
-                steps{
+        stage('SonarQube Analysis') {
+            steps {
                 withSonarQubeEnv(credentialsId: 'sonarqube-token') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-                    -Dsonar.projectKey=Netflix '''
-                }
+                    sh """
+                    ${tool name: 'SonarQube-Scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner \
+                    -Dsonar.projectName=Netflix -Dsonar.projectKey=Netflix
+                    """
                 }
             }
         }
-        // stage('Install Dependencies') {
+        // stage('Build Image') {
         //     steps {
-        //         //sh "npm install"
-        //     }
-        // }
-        // stage("build image") {
-        //         steps {
-        //             script {
-        //             echo "building image"
+        //         script {
+        //             echo "Building Docker image"
         //             withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        //             sh 'docker build -t  hassantariq14351/demo-app:Netflix-1.0 .'
-        //             sh "echo $PASS | docker login -u $USER --password-stdin"
-        //             sh 'docker push  hassantariq14351/demo-app:Netflix-1.0'
-        //                 }
+        //                 sh """
+        //                 docker build -t hassantariq14351/demo-app:Netflix-1.0 .
+        //                 echo \$PASS | docker login -u \$USER --password-stdin
+        //                 docker push hassantariq14351/demo-app:Netflix-1.0
+        //                 """
         //             }
         //         }
         //     }
-        stage("deploy") {
+        // }
+        stage('Deploy') {
             steps {
                 script {
-                    echo "deploying"
-                    //gv.deployApp()
+                    echo "Deploying"
+                    // Add your deployment steps here
                 }
             }
         }
-    }   
+    }
 }
